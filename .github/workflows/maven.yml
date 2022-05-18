@@ -28,8 +28,8 @@ jobs:
 
       - name: update version
         run: |
-          mvn -Drevision=${{ steps.DetermineNextTag.outputs.new_tag }}
-          mvn --batch-mode --update-snapshots package
+          mvn -Drevision=${{ steps.DetermineNextTag.outputs.new_tag }} --batch-mode --update-snapshots package
+           
         env:
           GITHUB_TOKEN: '${{ github.token }}'
           
