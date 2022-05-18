@@ -17,7 +17,7 @@ jobs:
         id: DetermineTag
         uses: anothrNick/github-tag-action@1.36.0
         env:
-          GITHUB_TOKEN: '${{ secrets.token }}'
+          GITHUB_TOKEN: '${{ github.token }}'
           DRY_RUN: true
       - run: 'echo "next_tag=${{steps.DetermineNextTag.outputs.new_tag}}"'
       - uses: actions/checkout@v3
@@ -35,4 +35,11 @@ jobs:
       - name: Publish to GitHub Packages Apache Maven
         run: mvn --batch-mode deploy
         env:
-          GITHUB_TOKEN: '${{ secrets.token }}'
+          GITHUB_TOKEN: '${{ github.token }}'
+          
+      - name: Create a Release
+        uses: elgohr/Github-Release-Action@v4
+        env:
+         GITHUB_TOKEN: ${{ github.token }}
+        with:
+         title: ${{ steps.DetermineTag.outputs.new_tag }}
