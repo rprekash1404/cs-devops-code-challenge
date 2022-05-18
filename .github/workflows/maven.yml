@@ -25,11 +25,11 @@ jobs:
         env:
           GITHUB_TOKEN: '${{ secrets.VERSIONING }}'
           DRY_RUN: true
-      - run: echo next_tag=${{ steps.DetermineNextTag.outputs.tag }}
+      - run: echo next_tag=${{ steps.DetermineNextTag.outputs.new_tag }}
 
       - name: update version
         run: |
-          mvn versions:set -DnewVersion=${{ steps.DetermineNextTag.outputs.tag }}
+          mvn versions:set -DnewVersion=${{ steps.DetermineNextTag.outputs.new_tag }}
           mvn --batch-mode --update-snapshots package
           
       - name: publish
@@ -42,4 +42,4 @@ jobs:
         env:
          GITHUB_TOKEN: ${{ secrets.VERSIONING }}
         with:
-         title: ${{ steps.DetermineTag.outputs.tag }}
+         title: ${{ steps.DetermineTag.outputs.new_tag }}
