@@ -28,9 +28,10 @@ jobs:
       - run: echo next_tag=${{ steps.DetermineNextTag.outputs.new_tag }}
 
       - name: update version
-        run: |
-          mvn versions:set -DnewVersion=${{ steps.DetermineNextTag.outputs.new_tag }}
-          mvn --batch-mode --update-snapshots package
+        run:  mvn versions:set -DnewVersion=${{ steps.DetermineNextTag.outputs.new_tag }}
+          
+      - name: package
+        run:  mvn --batch-mode --update-snapshots package       
           
       - name: publish
         run:  mvn --batch-mode deploy -Dversion=${{ steps.DetermineNextTag.outputs.new_tag }}
