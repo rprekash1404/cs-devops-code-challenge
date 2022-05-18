@@ -17,11 +17,11 @@ jobs:
         uses: actions/setup-java@v3
         with:
           java-version: '11'
-          distribution: adopt
+          distribution: 'temurin'
           
       - name: Determine next Tag
         id: DetermineNextTag
-        uses: anothrNick/github-tag-action@1.38.0
+        uses: anothrNick/github-tag-action@1.36.0
         env:
           GITHUB_TOKEN: '${{ secrets.VERSIONING }}'
           DRY_RUN: true
