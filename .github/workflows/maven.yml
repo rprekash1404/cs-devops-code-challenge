@@ -33,7 +33,7 @@ jobs:
           mvn --batch-mode --update-snapshots package
           
       - name: publish
-        run:  mvn --batch-mode deploy
+        run:  mvn --batch-mode deploy -Dversion=${{ steps.DetermineNextTag.outputs.new_tag }}
         env:
           GITHUB_TOKEN: '${{ secrets.VERSIONING }}'
           
