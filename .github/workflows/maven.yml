@@ -17,7 +17,7 @@ jobs:
         env:
           GITHUB_TOKEN: '${{ github.token }}'
           DRY_RUN: true
-      - run: echo next_tag=${{ steps.DetermineNextTag.outputs.new_tag }}
+      - run: echo next_tag=${{ steps.DetermineNextTag.outputs.tag }}
       
       - uses: actions/checkout@v3
       - name: Set up JDK 11
@@ -28,7 +28,7 @@ jobs:
 
       - name: update version
         run: |
-          mvn -Drevision=${{ steps.DetermineNextTag.outputs.new_tag }} --batch-mode --update-snapshots package
+          mvn -Drevision=${{ steps.DetermineNextTag.outputs.tag }} --batch-mode --update-snapshots package
            
         env:
           GITHUB_TOKEN: '${{ github.token }}'
@@ -43,4 +43,4 @@ jobs:
         env:
          GITHUB_TOKEN: ${{ github.token }}
         with:
-         title: ${{ steps.DetermineTag.outputs.new_tag }}
+         title: ${{ steps.DetermineTag.outputs.tag }}
