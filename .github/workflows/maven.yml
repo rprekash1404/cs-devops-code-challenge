@@ -25,9 +25,16 @@ jobs:
         with:
           java-version: '11'
           distribution: temurin
+
+      - name: update version
+        run: |
+          mvn -Drevision=${{ steps.DetermineNextTag.outputs.new_tag }}
+          mvn --batch-mode --update-snapshots package
+        env:
+          GITHUB_TOKEN: '${{ github.token }}'
           
-      - name: build abd deploy
-        run:  mvn -B -U -Drevision=${{ steps.DetermineNextTag.outputs.new_tag }} --update-snapshots clean deploy
+      - name: publish
+        run:  mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: '${{ github.token }}'
           
