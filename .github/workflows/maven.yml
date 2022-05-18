@@ -28,12 +28,8 @@ jobs:
           distribution: temurin
       - name: update and build
         run: >
-          mvn versions:set -DnewVersion=${{ steps.DetermineTag.outputs.new_tag
-          }}
-
+          mvn -B -Drevision=${{ needs.tag.steps.DetermineNextTag.outputs.new_tag }} --update-snapshots clean deploy
           mvn --batch-mode --update-snapshots package
-      - name: Publish to GitHub Packages Apache Maven
-        run: mvn --batch-mode deploy
         env:
           GITHUB_TOKEN: '${{ github.token }}'
           
