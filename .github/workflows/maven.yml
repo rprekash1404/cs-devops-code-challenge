@@ -19,16 +19,17 @@ jobs:
         env:
           GITHUB_TOKEN: '${{ github.token }}'
           DRY_RUN: true
-      - run: 'echo "next_tag=${{steps.DetermineNextTag.outputs.new_tag}}"'
+      - run: echo next_tag=${{steps.DetermineNextTag.outputs.new_tag}}
+      
       - uses: actions/checkout@v3
       - name: Set up JDK 11
         uses: actions/setup-java@v3
         with:
           java-version: '11'
           distribution: temurin
-      - name: update and build
-        run: >
-          mvn -B -Drevision=${{ steps.DetermineNextTag.outputs.new_tag }} --update-snapshots clean deploy
+          
+      - name: build abd deploy
+        run:  mvn -B -U -Drevision=${{ steps.DetermineNextTag.outputs.new_tag }} --update-snapshots clean deploy
         env:
           GITHUB_TOKEN: '${{ github.token }}'
           
